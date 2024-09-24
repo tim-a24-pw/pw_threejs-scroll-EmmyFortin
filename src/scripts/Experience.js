@@ -23,6 +23,7 @@ export default class Experience {
       rootMargin: '-45% 0px',
     });
     this.createCamera();
+    this.createLights();
     this.createObjects();
     this.createRenderer();
     this.animate();
@@ -32,7 +33,13 @@ export default class Experience {
       observer.observe(element);
     }
   }
-
+  createLights() {
+    const ambientLight = new THREE.AmbientLight('#fffffff', 0.8);
+    this.scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight('#fffffff', 4);
+    directionalLight.position.set(1, 2, 5);
+    this.scene.add(directionalLight);
+  }
   createCamera() {
     this.camera = new THREE.PerspectiveCamera(
       45,
@@ -63,6 +70,7 @@ export default class Experience {
     this.glftLoader.load('assets/models/ac/scene.gltf', (gltf) => {
       this.model = gltf.scene;
       this.model.scale.set(0.005, 0.005, 0.005);
+      this.model.rotation.x = 1.5;
       this.scene.add(this.model);
     });
   }
@@ -96,7 +104,7 @@ export default class Experience {
       const entry = entries[i];
       const target = entry.target;
       if (entry.isIntersecting) {
-        gsap.to(this.cube.position, {
+        gsap.to(this.model.position, {
           duration: 1,
           ease: 'Power2.inOut',
           x: target.dataset.p,
@@ -105,4 +113,4 @@ export default class Experience {
     }
   }
 }
-/*à suivre*/
+/*zoom 47 minutes*/
